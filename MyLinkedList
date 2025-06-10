@@ -1,0 +1,158 @@
+public class MyLinkedList {
+    private Node head ;
+
+    public MyLinkedList(Node head) {
+        this.head = head;
+    }
+    public MyLinkedList() {
+        this.head = null;
+    }
+    public void add(int value) {
+        Node newNode = new Node(value);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node current = head;
+            while (current.getNext() != null) {
+                current = current.getNext();
+            }
+            current.setNext(newNode);
+        }
+    }
+    public boolean contains(int value) {
+        Node current = head;
+        while (current != null) {
+            if (current.getValue() == value) {
+                return true;
+            }
+            current = current.getNext();
+        }
+        return false;
+    }
+    public void print() {
+        if (head == null) {
+            System.out.println("List is empty.");
+            return;
+        }
+        Node current = head;
+        while (current != null) {
+            System.out.print(current.getValue() + " ");
+            current = current.getNext();
+        }
+        System.out.println();
+    }
+    public int size() {
+        int count = 0;
+        Node current = head;
+        while (current != null) {
+            count++;
+            current = current.getNext();
+        }
+        return count;
+    }
+    public boolean isEmpty() {
+        return head == null;
+    }
+    public int indexOf(int value) {
+        Node current = head;
+        int index = 0;
+        while (current != null) {
+            if (current.getValue() == value) {
+                return index;
+            }
+            current = current.getNext();
+            index++;
+        }
+        return -1;
+    }
+    public int get(int index) {
+        if (index < 0) {
+            throw new IndexOutOfBoundsException("Index cannot be negative.");
+        }
+        Node current = head;
+        int currentIndex = 0;
+        while (current != null) {
+            if (currentIndex == index) {
+                return current.getValue();
+            }
+            current = current.getNext();
+            currentIndex++;
+        }
+        throw new IndexOutOfBoundsException("Index is out of bounds.");
+    }
+    public void clear() {
+        head = null;
+    }
+    public int[] toArray() {
+        int[] array = new int[size()];
+        Node current = head;
+        int index = 0;
+        while (current != null) {
+            array[index++] = current.getValue();
+            current = current.getNext();
+        }
+        return array;
+    }
+    public void remove(int index) {
+        if (index < 0) {
+            throw new IndexOutOfBoundsException("Index cannot be negative.");
+        }
+        if (head == null) {
+            throw new IndexOutOfBoundsException("List is empty, cannot remove from empty list");
+        }
+        if (index == 0) {
+            head = head.getNext();
+            return;
+        }
+        Node current = head;
+        int currentIndex = 0;
+        while (current != null && currentIndex < index - 1) {
+            current = current.getNext();
+            currentIndex++;
+        }
+        if (current == null || current.getNext() == null) {
+            throw new IndexOutOfBoundsException("Index is out of bounds.");
+        }
+        current.setNext(current.getNext().getNext());
+    }
+    public void remove(Object ob) {
+        if (head == null) {
+            return;
+        }
+
+        if (head.equals(ob)) {
+            head = head.getNext();
+            return;
+        }
+
+        Node current = head;
+        while (current.getNext() != null) {
+            if (current.getNext().equals(ob)) {
+                current.setNext(current.getNext().getNext());
+                return;
+            }
+            current = current.getNext();
+        }
+    }
+    public void insertAt(int index, Node newNode) {
+        if (index < 0) {
+            throw new IndexOutOfBoundsException("Index cannot be negative.");
+        }
+        if (index == 0) {
+            newNode.setNext(head);
+            head = newNode;
+            return;
+        }
+        Node current = head;
+        int currentIndex = 0;
+        while (current != null && currentIndex < index - 1) {
+            current = current.getNext();
+            currentIndex++;
+        }
+        if (current == null) {
+            throw new IndexOutOfBoundsException("Index is out of bounds.");
+        }
+        newNode.setNext(current.getNext());
+        current.setNext(newNode);
+    }
+}
